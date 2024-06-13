@@ -1,2 +1,5 @@
 # Stl files from the Output of the script
 output/*.stl
+
+# Settings file from VSCode
+settings.json
