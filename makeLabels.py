@@ -1,4 +1,5 @@
 import subprocess
+import shutil
 import os
 from concurrent.futures import ThreadPoolExecutor
 
@@ -18,9 +19,16 @@ def run_openscad(plant_name):
     except subprocess.CalledProcessError as e:
         print(f"Error creating {output_file}: {e}")
 
-# Function to open PrusaSlicer with all STL files using Flatpak
+# Function to open PrusaSlicer with all STL files, autodetecting Flatpak or non-Flatpak version
 def open_prusaslicer(files):
-    command = ["flatpak", "run", "com.prusa3d.PrusaSlicer"] + files
+    if shutil.which("flatpak") and shutil.which("com.prusa3d.PrusaSlicer"):
+        command = ["flatpak", "run", "com.prusa3d.PrusaSlicer"] + files
+    elif shutil.which("prusa-slicer"):
+        command = ["prusa-slicer"] + files
+    else:
+        print("PrusaSlicer not found")
+        return
+    
     try:
         subprocess.run(command, check=True)
         print("PrusaSlicer opened with all STL files")

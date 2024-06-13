@@ -1,4 +1,4 @@
-include <GardenLabelModules.scad>
+use <GardenLabelModules.scad>
 
-
-GardenLabel(text);
+// This file is made for interfacing usage using the python script
+GardenLabel(msg);
